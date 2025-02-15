@@ -1,11 +1,17 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <memory>
+#include "../PoolWorld/pool_world.hpp"
 
 class Game {
-    sf::RenderWindow* window;
+    std::shared_ptr<sf::Vector2u> window_size;
+    std::unique_ptr<sf::RenderWindow> window;
     std::optional<sf::Event> event{};
+    std::unique_ptr<PoolWorld> pool_world;
+
     void pollEvent();
+    void drawObjects() const;
 public:
     Game();
     ~Game();

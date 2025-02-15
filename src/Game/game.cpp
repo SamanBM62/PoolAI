@@ -1,13 +1,15 @@
 #include "game.hpp"
 #include <iostream>
 
-Game::Game(): window {new sf::RenderWindow{sf::VideoMode({1000u, 500u}), "Not sure what to put?", 
-         sf::Style::Titlebar | sf::Style::Close}} {
+Game::Game() : window_size{std::make_shared<sf::Vector2u>(1500u, 700u)},
+               window{std::make_unique<sf::RenderWindow>(sf::VideoMode(*this->window_size), "Not sure what to put?",
+                sf::Style::Titlebar | sf::Style::Close)} {
 
+    this->window->setFramerateLimit(60);
+    this->pool_world = std::make_unique<PoolWorld>(this->window_size);
 }
 
 Game::~Game() {
-    delete this->window;
 }
 
 const bool Game::running() const {
@@ -30,16 +32,12 @@ void Game::pollEvent() {
                 case sf::Keyboard::Scancode::A:
                     std::cout << "yooooooo\n";
                     break;
-                case sf::Keyboard::Scancode::B:
-                    std::cout << "hellllllooooooooo\n";
-                    break;
-                case sf::Keyboard::Scancode::N:
-                    std::cout << "coffeeeeeeeeee\n";
-                    break;
                 default:
                     break;
                 }
             }
+
+            sf::Vector2i mousePos = sf::Mouse::getPosition(*this->window);
         }
 }
 
@@ -48,6 +46,17 @@ void Game::update() {
 }
 
 void Game::render() {
-    this->window->clear(sf::Color(255, 0, 0));
+    this->window->clear();
+
+    this->drawObjects();
+
     this->window->display();
+}
+
+void Game::drawObjects() const {
+    this->window->draw(this->pool_world->getPool());
+    const std::vector<std::unique_ptr<sf::CircleShape>>& holes = this->pool_world->getHoles();
+    for (auto const& hole : holes) {
+        this->window->draw(*hole);
+    }
 }
