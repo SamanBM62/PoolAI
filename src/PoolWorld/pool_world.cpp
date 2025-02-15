@@ -30,10 +30,10 @@ void PoolWorld::setUpHoles() {
 
 	for(auto& x: xPoss)
 		for (auto& y : yPoss) {
-			sf::CircleShape hole{ 25 };
-			hole.setFillColor(sf::Color::Black);
-			hole.setPosition(sf::Vector2f(x, y));
-			this->holes.push_back(std::make_unique<sf::CircleShape>(hole));
+			auto hole{ std::make_unique < sf::CircleShape>(25) };
+			hole->setFillColor(sf::Color::Black);
+			hole->setPosition(sf::Vector2f(x, y));
+			this->holes.push_back(std::move(hole));
 		}
 }
 
