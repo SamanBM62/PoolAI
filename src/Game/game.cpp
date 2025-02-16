@@ -43,6 +43,8 @@ void Game::pollEvent() {
 
 void Game::update() {
     this->pollEvent();
+    this->pool_world->moveWhiteBall();
+    this->pool_world->handleWallCollision();
 }
 
 void Game::render() {
@@ -55,8 +57,11 @@ void Game::render() {
 
 void Game::drawObjects() const {
     this->window->draw(this->pool_world->getPool());
+
     const std::vector<std::unique_ptr<sf::CircleShape>>& holes = this->pool_world->getHoles();
     for (auto const& hole : holes) {
         this->window->draw(*hole);
     }
+
+    this->window->draw(*this->pool_world->getWhiteBall());
 }
