@@ -43,54 +43,29 @@ const std::vector<std::unique_ptr<sf::CircleShape>>& PoolWorld::getHoles() const
 }
 
 void PoolWorld::setUpWhiteBall() {
-	this->white_ball = std::make_unique < sf::CircleShape>(20);
-	this->white_ball->setPosition(
+	this->white_ball = std::make_unique <Ball>(20, 
 		sf::Vector2f((this->main_window_size->x) / 2.f,
-			(this->main_window_size->y ) / 2.f)
-	);
+					(this->main_window_size->y) / 2.f)
+		);
+}
+
+void PoolWorld::shootBall()
+{
+	this->white_ball->setVelocity(sf::Vector2f(500.f,500.f));
 }
 
 const std::unique_ptr<sf::CircleShape>& PoolWorld::getWhiteBall() const {
-	return this->white_ball;
+	return this->white_ball->getBall();
 }
 
 void PoolWorld::moveWhiteBall() {
 	// Move the ball according to its velocity
-	this->white_ball->move(velocity * (1.f/60.f));
-
-	// Apply friction to gradually slow the ball down
-	float friction = 0.98f;  // Adjust for stronger/weaker friction
-	velocity *= friction;
-
-	// Stop ball if velocity is very low
-	if (std::abs(velocity.x) < 0.1f) velocity.x = 0;
-	if (std::abs(velocity.y) < 0.1f) velocity.y = 0;
+	this->white_ball->move();
 }
 
 void PoolWorld::handleWallCollision() {
-	sf::Vector2f pos = this->white_ball->getPosition();
-	float radius = this->white_ball->getRadius();
 
-	// Left & right walls
-	if (pos.x < 0) {
-		pos.x = 0;
-		velocity.x = -velocity.x;
-	}
-	else if (pos.x + 2 * radius > this->main_window_size->x) {
-		pos.x = this->main_window_size->x - 2 * radius;
-		velocity.x = -velocity.x;
-	}
-
-	// Top & bottom walls
-	if (pos.y < 0) {
-		pos.y = 0;
-		velocity.y = -velocity.y;
-	}
-	else if (pos.y + 2 * radius > this->main_window_size->y) {
-		pos.y = this->main_window_size->y - 2 * radius;
-		velocity.y = -velocity.y;
-	}
-
-	this->white_ball->setPosition(pos);
+	this->white_ball->handleWallCollision(sf::Vector2f(this->main_window_size->x, this->main_window_size->y), 
+			this->pool.getSize());
 }
 

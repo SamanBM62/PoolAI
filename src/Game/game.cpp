@@ -32,6 +32,9 @@ void Game::pollEvent() {
                 case sf::Keyboard::Scancode::A:
                     std::cout << "yooooooo\n";
                     break;
+                case sf::Keyboard::Scancode::S:
+                    this->pool_world->shootBall();
+                    break;
                 default:
                     break;
                 }
