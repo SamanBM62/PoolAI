@@ -9,6 +9,7 @@ class Game {
     std::unique_ptr<sf::RenderWindow> window;
     std::optional<sf::Event> event{};
     std::unique_ptr<PoolWorld> pool_world;
+    unsigned int _FPS;
 
     void pollEvent();
     void drawObjects() const;

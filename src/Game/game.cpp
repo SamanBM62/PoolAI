@@ -5,7 +5,8 @@ Game::Game() : window_size{std::make_shared<sf::Vector2u>(1500u, 700u)},
                window{std::make_unique<sf::RenderWindow>(sf::VideoMode(*this->window_size), "Not sure what to put?",
                 sf::Style::Titlebar | sf::Style::Close)} {
 
-    this->window->setFramerateLimit(60);
+    this->_FPS = 60;
+    this->window->setFramerateLimit(this->_FPS);
     this->pool_world = std::make_unique<PoolWorld>(this->window_size);
 }
 
@@ -46,7 +47,7 @@ void Game::pollEvent() {
 
 void Game::update() {
     this->pollEvent();
-    this->pool_world->moveWhiteBall();
+    this->pool_world->moveWhiteBall(this->_FPS);
     this->pool_world->handleWallCollision();
 }
 

@@ -58,9 +58,9 @@ const std::unique_ptr<sf::CircleShape>& PoolWorld::getWhiteBall() const {
 	return this->white_ball->getBall();
 }
 
-void PoolWorld::moveWhiteBall() {
+void PoolWorld::moveWhiteBall(unsigned int& FPS) {
 	// Move the ball according to its velocity
-	this->white_ball->move();
+	this->white_ball->move(FPS);
 }
 
 void PoolWorld::handleWallCollision() {

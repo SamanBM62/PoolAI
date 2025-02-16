@@ -22,7 +22,7 @@ public:
 	sf::RectangleShape getPool();
 	const std::vector<std::unique_ptr<sf::CircleShape>>& getHoles() const;
 	const std::unique_ptr<sf::CircleShape>& getWhiteBall() const;
-	void moveWhiteBall();
+	void moveWhiteBall(unsigned int& FPS);
 	void handleWallCollision();
 	void shootBall();
 };

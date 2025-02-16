@@ -5,13 +5,13 @@ Ball::Ball(float radious, sf::Vector2f pos) : _ball{ std::make_unique<sf::Circle
 	this->_ball->setPosition(pos);
 }
 
-void Ball::move()
+void Ball::move(unsigned int& FPS)
 {
 	if (!this->velocity.x && !this->velocity.y)
 		return;
 
 	// Move the ball according to its velocity
-	this->_ball->move(this->velocity * (1.f / 60.f));
+	this->_ball->move(this->velocity * (1.f / FPS));
 
 	// Apply friction to gradually slow the ball down
 	float friction = 0.98f;  // Adjust for stronger/weaker friction
