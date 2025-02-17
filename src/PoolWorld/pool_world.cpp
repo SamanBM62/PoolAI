@@ -4,6 +4,7 @@ PoolWorld::PoolWorld(std::shared_ptr<sf::Vector2u> window_size) : main_window_si
 	this->setUpPool();
 	this->setUpHoles();
 	this->setUpWhiteBall();
+	this->setUpBalls();
 }
 
 sf::RectangleShape PoolWorld::getPool() {
@@ -49,13 +50,27 @@ void PoolWorld::setUpWhiteBall() {
 		);
 }
 
+void PoolWorld::setUpBalls()
+{
+	this->_balls = std::make_unique <Ball>(20,
+		sf::Vector2f((this->main_window_size->x) / 2.f + 200.f,
+			(this->main_window_size->y) / 2.f)
+		);
+	this->_balls->getBall()->setFillColor(sf::Color::Red);
+}
+
 void PoolWorld::shootBall()
 {
-	this->white_ball->setVelocity(sf::Vector2f(500.f,500.f));
+	this->white_ball->setVelocity(sf::Vector2f(500.f,0.f));
 }
 
 const std::unique_ptr<sf::CircleShape>& PoolWorld::getWhiteBall() const {
 	return this->white_ball->getBall();
+}
+
+const std::unique_ptr<sf::CircleShape>& PoolWorld::getBalls() const
+{
+	return this->_balls->getBall();
 }
 
 void PoolWorld::moveWhiteBall(unsigned int& FPS) {
@@ -63,9 +78,19 @@ void PoolWorld::moveWhiteBall(unsigned int& FPS) {
 	this->white_ball->move(FPS);
 }
 
+void PoolWorld::moveBalls(unsigned int& FPS)
+{
+	this->_balls->move(FPS);
+	if(this->_balls->checkCollision(*this->white_ball))
+		this->_balls->handleBallCollision(*this->white_ball);
+}
+
 void PoolWorld::handleWallCollision() {
 
 	this->white_ball->handleWallCollision(sf::Vector2f(this->main_window_size->x, this->main_window_size->y), 
 			this->pool.getSize());
+
+	this->_balls->handleWallCollision(sf::Vector2f(this->main_window_size->x, this->main_window_size->y),
+		this->pool.getSize());
 }
 

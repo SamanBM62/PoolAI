@@ -32,6 +32,36 @@ const std::unique_ptr<sf::CircleShape>& Ball::getBall() const
 	return this->_ball;
 }
 
+bool Ball::checkCollision(const Ball& other) const
+{
+	sf::Vector2f diff = other._ball->getPosition() - this->_ball->getPosition();
+	float distance = std::sqrt(diff.x * diff.x + diff.y * diff.y);
+	float radiusSum = this->_ball->getRadius() + other._ball->getRadius();
+
+	return distance <= radiusSum;
+}
+
+void Ball::handleBallCollision(Ball& other)
+{
+	sf::Vector2f diff = other._ball->getPosition() - this->_ball->getPosition();
+	float distance = std::sqrt(diff.x * diff.x + diff.y * diff.y);
+
+	if (distance == 0.0f)
+		return;  // Prevent division by zero
+
+	sf::Vector2f normal = diff / distance;  // Normalize direction
+	sf::Vector2f relativeVelocity = velocity - other.velocity;
+
+	float speed = relativeVelocity.x * normal.x + relativeVelocity.y * normal.y;
+
+	if (speed < 0)
+		return;  // Balls moving apart, no collision response needed
+
+	float impulse = 2 * speed / 2.0f;  // Since both balls have equal mass
+	velocity -= impulse * normal;
+	other.velocity += impulse * normal;
+}
+
 void Ball::handleWallCollision(sf::Vector2f& window_size, sf::Vector2f& board_size)
 {
 	sf::Vector2f pos = this->_ball->getPosition();

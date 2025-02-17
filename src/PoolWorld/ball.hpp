@@ -14,4 +14,6 @@ public:
 	void setVelocity(sf::Vector2f& newVel);
 	void handleWallCollision(sf::Vector2f& window_size, sf::Vector2f& board_size);
 	const std::unique_ptr<sf::CircleShape>& getBall() const;
+	bool checkCollision(const Ball& other) const;
+	void handleBallCollision(Ball& other);
 };

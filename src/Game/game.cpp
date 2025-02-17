@@ -48,7 +48,9 @@ void Game::pollEvent() {
 void Game::update() {
     this->pollEvent();
     this->pool_world->moveWhiteBall(this->_FPS);
+    this->pool_world->moveBalls(this->_FPS);
     this->pool_world->handleWallCollision();
+    
 }
 
 void Game::render() {
@@ -68,4 +70,5 @@ void Game::drawObjects() const {
     }
 
     this->window->draw(*this->pool_world->getWhiteBall());
+    this->window->draw(*this->pool_world->getBalls());
 }
