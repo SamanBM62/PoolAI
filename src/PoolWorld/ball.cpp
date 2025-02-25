@@ -1,4 +1,5 @@
 #include "ball.hpp"
+#include <cmath>
 
 Ball::Ball(float radious, sf::Vector2f pos) : _ball{ std::make_unique<sf::CircleShape>(radious) },
 	velocity{0.f, 0.f} {

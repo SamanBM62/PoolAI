@@ -61,7 +61,8 @@ void PoolWorld::setUpBalls()
 
 void PoolWorld::shootBall()
 {
-	this->white_ball->setVelocity(sf::Vector2f(500.f,0.f));
+	sf::Vector2f temp(500.f, 0.f);
+	this->white_ball->setVelocity(temp);
 }
 
 const std::unique_ptr<sf::CircleShape>& PoolWorld::getWhiteBall() const {
@@ -86,11 +87,13 @@ void PoolWorld::moveBalls(unsigned int& FPS)
 }
 
 void PoolWorld::handleWallCollision() {
+	sf::Vector2f temp(this->main_window_size->x, this->main_window_size->y);
+	sf::Vector2f temp2 = this->pool.getSize();
 
-	this->white_ball->handleWallCollision(sf::Vector2f(this->main_window_size->x, this->main_window_size->y), 
-			this->pool.getSize());
+	this->white_ball->handleWallCollision(temp, 
+			temp2);
 
-	this->_balls->handleWallCollision(sf::Vector2f(this->main_window_size->x, this->main_window_size->y),
-		this->pool.getSize());
+	this->_balls->handleWallCollision(temp,
+		temp2);
 }
 
