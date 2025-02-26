@@ -18,6 +18,7 @@ const bool Game::running() const {
 }
 
 void Game::pollEvent() {
+    
     while (this->event = window->pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -30,14 +31,35 @@ void Game::pollEvent() {
                 case sf::Keyboard::Scancode::Escape:
                     this->window->close();
                     break;
-                case sf::Keyboard::Scancode::A:
-                    std::cout << "yooooooo\n";
+                case sf::Keyboard::Scancode::V:
+                    this->pool_world->getStick()->makeVisibile();
                     break;
                 case sf::Keyboard::Scancode::S:
                     this->pool_world->shootBall();
                     break;
+                case sf::Keyboard::Scancode::I:
+                    this->pool_world->getStick()->makeInvisible();
+                    break;
                 default:
                     break;
+                }
+            }
+
+            if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
+            {
+                if (mouseButtonPressed->button == sf::Mouse::Button::Left)
+                {
+                    if (this->pool_world->getWhiteBall()->getGlobalBounds().contains(sf::Vector2f(mouseButtonPressed->position.x, mouseButtonPressed->position.y))) {
+                        this->pool_world->getStick()->makeVisibile();
+                    }
+                }
+            }
+
+            if (const auto* mouseButtonReleased = event->getIf<sf::Event::MouseButtonReleased>())
+            {
+                if (mouseButtonReleased->button == sf::Mouse::Button::Left && this->pool_world->getStick()->visibilityStatus())
+                {
+                    this->pool_world->getStick()->makeInvisible();
                 }
             }
 
@@ -71,4 +93,6 @@ void Game::drawObjects() const {
 
     this->window->draw(*this->pool_world->getWhiteBall());
     this->window->draw(*this->pool_world->getBalls());
+    if(this->pool_world->getStick()->visibilityStatus())
+        this->window->draw(*this->pool_world->getStickShape());
 }

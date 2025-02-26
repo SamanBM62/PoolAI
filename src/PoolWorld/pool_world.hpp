@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include "ball.hpp"
+#include "stick.hpp"
 
 class PoolWorld{
 private:
@@ -13,6 +14,8 @@ private:
 	std::unique_ptr<Ball> white_ball;
 	//TODO: make this vector
 	std::unique_ptr<Ball> _balls;
+
+	std::unique_ptr<Stick> _stick;
 
 	void setUpPool();
 	void setUpHoles();
@@ -32,4 +35,7 @@ public:
 	void moveBalls(unsigned int& FPS);
 	void handleWallCollision();
 	void shootBall();
+
+	const std::unique_ptr<sf::RectangleShape>& getStickShape() const;
+	const std::unique_ptr<Stick>& getStick() const;
 };

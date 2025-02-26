@@ -1,6 +1,6 @@
 #include "pool_world.hpp"
 
-PoolWorld::PoolWorld(std::shared_ptr<sf::Vector2u> window_size) : main_window_size{window_size} {
+PoolWorld::PoolWorld(std::shared_ptr<sf::Vector2u> window_size) : main_window_size{window_size}, _stick{std::make_unique < Stick>()} {
 	this->setUpPool();
 	this->setUpHoles();
 	this->setUpWhiteBall();
@@ -61,6 +61,7 @@ void PoolWorld::setUpBalls()
 
 void PoolWorld::shootBall()
 {
+	// TODO: remove this temp
 	sf::Vector2f temp(500.f, 0.f);
 	this->white_ball->setVelocity(temp);
 }
@@ -87,6 +88,7 @@ void PoolWorld::moveBalls(unsigned int& FPS)
 }
 
 void PoolWorld::handleWallCollision() {
+	// TODO: remove this temp
 	sf::Vector2f temp(this->main_window_size->x, this->main_window_size->y);
 	sf::Vector2f temp2 = this->pool.getSize();
 
@@ -97,3 +99,10 @@ void PoolWorld::handleWallCollision() {
 		temp2);
 }
 
+const std::unique_ptr<sf::RectangleShape>& PoolWorld::getStickShape() const {
+	return this->_stick->getStick();
+}
+
+const std::unique_ptr<Stick>& PoolWorld::getStick() const {
+	return this->_stick;
+}
