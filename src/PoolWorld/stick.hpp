@@ -12,6 +12,6 @@ public:
     Stick();
     const std::unique_ptr<sf::RectangleShape>& getStick() const;
     bool visibilityStatus();
-    void makeVisibile();
+    void makeVisibile(const sf::Vector2f&);
     void makeInvisible();
 };

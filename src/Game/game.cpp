@@ -32,7 +32,7 @@ void Game::pollEvent() {
                     this->window->close();
                     break;
                 case sf::Keyboard::Scancode::V:
-                    this->pool_world->getStick()->makeVisibile();
+                    this->pool_world->getStick()->makeVisibile(this->pool_world->getWhiteBall()->getPosition());
                     break;
                 case sf::Keyboard::Scancode::S:
                     this->pool_world->shootBall();
@@ -50,7 +50,7 @@ void Game::pollEvent() {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Left)
                 {
                     if (this->pool_world->getWhiteBall()->getGlobalBounds().contains(sf::Vector2f(mouseButtonPressed->position.x, mouseButtonPressed->position.y))) {
-                        this->pool_world->getStick()->makeVisibile();
+                        this->pool_world->getStick()->makeVisibile(this->pool_world->getWhiteBall()->getPosition());
                     }
                 }
             }

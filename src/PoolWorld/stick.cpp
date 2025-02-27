@@ -15,7 +15,9 @@ bool Stick::visibilityStatus() {
     return this->_visibility;
 }
 
-void Stick::makeVisibile() {
+void Stick::makeVisibile(sf::Vector2f const& coordinate) {
+    // TODO: Remove magic numbers
+    this->_stick->setPosition(sf::Vector2f(coordinate.x - 500.f - 5.f, coordinate.y + 4.f));
     this->_visibility = true;
 }
 
