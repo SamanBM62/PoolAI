@@ -49,7 +49,8 @@ void Game::pollEvent() {
             {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Left)
                 {
-                    if (this->pool_world->getWhiteBall()->getGlobalBounds().contains(sf::Vector2f(mouseButtonPressed->position.x, mouseButtonPressed->position.y))) {
+                    if (this->pool_world->getWhiteBall()->getGlobalBounds().contains(sf::Vector2f(mouseButtonPressed->position.x, mouseButtonPressed->position.y))
+                        && !this->pool_world->getStick()->visibilityStatus()) {
                         this->pool_world->getStick()->makeVisibile(this->pool_world->getWhiteBall()->getPosition());
                     }
                 }
@@ -60,6 +61,16 @@ void Game::pollEvent() {
                 if (mouseButtonReleased->button == sf::Mouse::Button::Left && this->pool_world->getStick()->visibilityStatus())
                 {
                     this->pool_world->getStick()->makeInvisible();
+                }
+            }
+
+            if (const auto* mouseMoved = event->getIf<sf::Event::MouseMoved>())
+            {
+                if(this->pool_world->getStick()->visibilityStatus()) {
+                    auto ballPosition = this->pool_world->getWhiteBall()->getPosition();
+                    auto radius = this->pool_world->getWhiteBall()->getRadius();
+
+                    this->pool_world->getStick()->moveStick(sf::Vector2f(ballPosition + sf::Vector2f(radius, radius)), mouseMoved->position.x, mouseMoved->position.y);
                 }
             }
 

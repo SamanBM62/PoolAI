@@ -14,4 +14,5 @@ public:
     bool visibilityStatus();
     void makeVisibile(const sf::Vector2f&);
     void makeInvisible();
+    void moveStick(const sf::Vector2f&, float, float);
 };
