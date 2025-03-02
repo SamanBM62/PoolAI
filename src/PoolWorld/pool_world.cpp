@@ -61,9 +61,7 @@ void PoolWorld::setUpBalls()
 
 void PoolWorld::shootBall()
 {
-	// TODO: remove this temp
-	sf::Vector2f temp(500.f, 0.f);
-	this->white_ball->setVelocity(temp);
+	this->_stick->hitBall(this->white_ball);
 }
 
 const std::unique_ptr<sf::CircleShape>& PoolWorld::getWhiteBall() const {

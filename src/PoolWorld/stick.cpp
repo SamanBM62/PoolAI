@@ -29,7 +29,7 @@ void Stick::makeInvisible() {
     this->_visibility = false;
 }
 
-void Stick::moveStick(const sf::Vector2f& ballPos, float mouseX, float mouseY) {
+void Stick::moveStick(const sf::Vector2f& ballPos, const float& mouseX, const float& mouseY) {
 
     auto differenceX = ballPos.x - mouseX;
     auto differenceY = ballPos.y - mouseY;
@@ -53,4 +53,11 @@ void Stick::moveStick(const sf::Vector2f& ballPos, float mouseX, float mouseY) {
     // Set the position and rotation of the stick
     this->_stick->setPosition(sf::Vector2f(stickPosition.x, stickPosition.y + 4.f));
     this->_stick->setRotation(angle);
+}
+
+void Stick::hitBall(const std::unique_ptr<Ball> & whiteBall) {
+    auto vel = this->_stick->getPosition() - whiteBall->getBall()->getPosition();
+    vel.x *= -6.5; /*I've just tested different numbers*/
+    vel.y *= -6.5;
+    whiteBall->setVelocity(vel);
 }
