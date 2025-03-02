@@ -19,8 +19,9 @@ bool Stick::visibilityStatus() {
 
 void Stick::makeVisibile(sf::Vector2f const& coordinate) {
     // TODO: Remove magic numbers
-    this->_stick->setPosition(sf::Vector2f(coordinate.x - 500.f - 5.f, coordinate.y + 4.f));
-    sf::Angle angle = sf::radians(0);
+    this->_stick->setPosition(sf::Vector2f(coordinate.x - 30.f, coordinate.y + 5.f));
+    float angleInRadians = std::atan2(0, -1);
+    sf::Angle angle = sf::radians(angleInRadians);
     this->_stick->setRotation(angle);
     this->_visibility = true;
 }
@@ -29,8 +30,9 @@ void Stick::makeInvisible() {
     this->_visibility = false;
 }
 
-void Stick::moveStick(const sf::Vector2f& ballPos, const float& mouseX, const float& mouseY) {
+void Stick::moveStick(const sf::Vector2f &ballPos, const float& mouseX, const float& mouseY) {
 
+    // ballPos.x = -ballPos.x;
     auto differenceX = ballPos.x - mouseX;
     auto differenceY = ballPos.y - mouseY;
 
@@ -56,7 +58,13 @@ void Stick::moveStick(const sf::Vector2f& ballPos, const float& mouseX, const fl
 }
 
 void Stick::hitBall(const std::unique_ptr<Ball> & whiteBall) {
-    auto vel = this->_stick->getPosition() - whiteBall->getBall()->getPosition();
+    auto ballPosition = whiteBall->getBall()->getPosition();
+    auto radius = whiteBall->getBall()->getRadius();
+
+    auto vel = this->_stick->getPosition() - sf::Vector2f(ballPosition + sf::Vector2f(radius, radius));
+    std::cout << "stick position " << this->_stick->getPosition().x << " " << this->_stick->getPosition().y << std::endl;
+    std::cout << "ball position " << whiteBall->getBall()->getPosition().x << " " << whiteBall->getBall()->getPosition().y << std::endl;
+    std::cout << "vel position " << vel.x << " " << vel.y << std::endl;
     vel.x *= -6.5; /*I've just tested different numbers*/
     vel.y *= -6.5;
     whiteBall->setVelocity(vel);
