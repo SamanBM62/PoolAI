@@ -63,8 +63,9 @@ void Game::pollEvent() {
             {
                 if (mouseButtonReleased->button == sf::Mouse::Button::Left && this->pool_world->getStick()->visibilityStatus())
                 {
-                    this->pool_world->getStick()->makeInvisible();
-                    this->pool_world->shootBall();
+                    // this->pool_world->getStick()->makeInvisible();
+                    // this->pool_world->shootBall();
+                    this->pool_world->getStick()->m
                 }
             }
 

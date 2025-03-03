@@ -85,6 +85,12 @@ void PoolWorld::moveBalls(unsigned int& FPS)
 		this->_balls->handleBallCollision(*this->white_ball);
 }
 
+void PoolWorld::moveStik(unsigned int& FPS) {
+	if(this->_stick->checkWhiteBallCollision(this->white_ball))
+		this->_stick->handleWhiteBallCollision(this->white_ball);
+	this->_stick->moveToWhiteBall(FPS);
+}
+
 void PoolWorld::handleWallCollision() {
 	// TODO: remove this temp
 	sf::Vector2f temp(this->main_window_size->x, this->main_window_size->y);

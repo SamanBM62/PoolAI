@@ -35,6 +35,7 @@ public:
 	void moveBalls(unsigned int& FPS);
 	void handleWallCollision();
 	void shootBall();
+	void moveStik(unsigned int& FPS);
 
 	const std::unique_ptr<sf::RectangleShape>& getStickShape() const;
 	const std::unique_ptr<Stick>& getStick() const;

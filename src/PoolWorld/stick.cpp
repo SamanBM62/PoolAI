@@ -69,3 +69,34 @@ void Stick::hitBall(const std::unique_ptr<Ball> & whiteBall) {
     vel.y *= -6.5;
     whiteBall->setVelocity(vel);
 }
+
+void Stick::handleWhiteBallCollision(const std::unique_ptr<Ball> & whiteBall) {
+    this->_velocity = sf::Vector2f(0.f, 0.f);
+    this->hitBall(whiteBall);
+    this->makeInvisible();
+}
+
+bool Stick::checkWhiteBallCollision(const std::unique_ptr<Ball> & whiteBall) {
+    sf::Vector2f circleCenter = whiteBall->getBall()->getPosition();
+    sf::FloatRect rectangleBounds = this->_stick->getGlobalBounds(); // Rectangle bounds
+    float circleRadius = whiteBall->getBall()->getRadius();
+
+    // Find the closest point on the rectangle to the circle's center
+    float closestX = std::max(rectangleBounds.left, std::min(circleCenter.x, rectangleBounds.left + rectangleBounds.width));
+    float closestY = std::max(rectangleBounds.top, std::min(circleCenter.y, rectangleBounds.top + rectangleBounds.height));
+
+    // Calculate the distance from the circle’s center to the closest point
+    sf::Vector2f diff = circleCenter - sf::Vector2f(closestX, closestY);
+    float distance = std::sqrt(diff.x * diff.x + diff.y * diff.y);
+
+    // Check for collision
+    return distance <= circleRadius;
+}
+
+void Stick::moveToWhiteBall(unsigned int& FPS) {
+    this->_stick->move(this->_velocity * (1.f / FPS));
+}
+
+void Stick::setVelocity(sf::Vector2f& newVel) {
+    this->_velocity = newVel;
+}
