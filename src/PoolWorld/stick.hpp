@@ -8,6 +8,7 @@ class Stick{
 private:
     std::unique_ptr<sf::RectangleShape> _stick;
     bool _visibility;
+    bool _shouldMove;
     sf::Vector2f _velocity;
 public:
     Stick();
@@ -18,7 +19,8 @@ public:
     void moveStick(const sf::Vector2f& ballPos, const float& mouseX, const float& mouseY);
     void hitBall(const std::unique_ptr<Ball> & whiteBall);
     void handleWhiteBallCollision(const std::unique_ptr<Ball> & whiteBall);
-    void moveToWhiteBall(unsigned int& FPS);
+    void moveToWhiteBall(unsigned int& FPS, const std::unique_ptr<Ball> & whiteBall);
     void setVelocity(sf::Vector2f& newVel);
     bool checkWhiteBallCollision(const std::unique_ptr<Ball> & whiteBall);
+    void startMoving();
 };

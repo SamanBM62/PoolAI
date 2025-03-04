@@ -86,9 +86,7 @@ void PoolWorld::moveBalls(unsigned int& FPS)
 }
 
 void PoolWorld::moveStik(unsigned int& FPS) {
-	if(this->_stick->checkWhiteBallCollision(this->white_ball))
-		this->_stick->handleWhiteBallCollision(this->white_ball);
-	this->_stick->moveToWhiteBall(FPS);
+	this->_stick->moveToWhiteBall(FPS, this->white_ball);
 }
 
 void PoolWorld::handleWallCollision() {

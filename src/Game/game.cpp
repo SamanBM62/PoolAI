@@ -65,7 +65,14 @@ void Game::pollEvent() {
                 {
                     // this->pool_world->getStick()->makeInvisible();
                     // this->pool_world->shootBall();
-                    this->pool_world->getStick()->m
+                    auto ballPosition = this->pool_world->getWhiteBall()->getPosition();
+                    auto radius = this->pool_world->getWhiteBall()->getRadius();
+
+                    auto vel = this->pool_world->getStickShape()->getPosition() - sf::Vector2f(ballPosition + sf::Vector2f(radius, radius));
+                    vel.x *= -6.5; /*I've just tested different numbers*/
+                    vel.y *= -6.5;
+                    this->pool_world->getStick()->setVelocity(vel);
+                    this->pool_world->getStick()->startMoving();
                 }
             }
 
@@ -88,6 +95,7 @@ void Game::update() {
     this->pool_world->moveWhiteBall(this->_FPS);
     this->pool_world->moveBalls(this->_FPS);
     this->pool_world->handleWallCollision();
+    this->pool_world->moveStik(this->_FPS);
     
 }
 
