@@ -5,6 +5,8 @@
 #include <vector>
 #include "ball.hpp"
 #include "stick.hpp"
+class Score;
+#include "../Game/game.hpp"
 
 class PoolWorld{
 private:
@@ -22,6 +24,8 @@ private:
 	void setUpWhiteBall();
 	//TODO: make this vector
 	void setUpBalls();
+	//TODO: needs refactoring using the same code on two different functions!
+	bool checkBallCollisonWithHoles(const sf::CircleShape&, const sf::CircleShape&);
 
 public:
 	PoolWorld(std::shared_ptr<sf::Vector2u>);
@@ -39,4 +43,7 @@ public:
 
 	const std::unique_ptr<sf::RectangleShape>& getStickShape() const;
 	const std::unique_ptr<Stick>& getStick() const;
+
+
+	void updateScore(const std::unique_ptr<Score>&);
 };

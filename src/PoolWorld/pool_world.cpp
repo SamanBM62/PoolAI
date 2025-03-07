@@ -1,4 +1,5 @@
 #include "pool_world.hpp"
+#include <cmath>
 
 PoolWorld::PoolWorld(std::shared_ptr<sf::Vector2u> window_size) : main_window_size{window_size}, _stick{std::make_unique < Stick>()} {
 	this->setUpPool();
@@ -107,4 +108,33 @@ const std::unique_ptr<sf::RectangleShape>& PoolWorld::getStickShape() const {
 
 const std::unique_ptr<Stick>& PoolWorld::getStick() const {
 	return this->_stick;
+}
+
+
+void PoolWorld::updateScore(const std::unique_ptr<Score>& scoreTable) {
+	for (auto const& hole: this->holes) {
+		if (this->checkBallCollisonWithHoles(*this->_balls->getBall(), *hole))
+			scoreTable->increaseScore();
+
+		if (this->checkBallCollisonWithHoles(*this->white_ball->getBall(), *hole))
+			scoreTable->decreaseScore();
+	}
+}
+
+bool PoolWorld::checkBallCollisonWithHoles(const sf::CircleShape& ball, const sf::CircleShape& hole) {
+	// Get the center positions of both the ball and the hole
+    sf::Vector2f ballCenter = ball.getPosition() + sf::Vector2f(ball.getRadius(), ball.getRadius());
+    sf::Vector2f holeCenter = hole.getPosition() + sf::Vector2f(hole.getRadius(), hole.getRadius());
+
+    // Calculate the difference between the centers
+    sf::Vector2f diff = ballCenter - holeCenter;
+
+    // Calculate the distance between the centers
+    float distance = std::sqrt(diff.x * diff.x + diff.y * diff.y);
+
+    // Calculate the sum of the radii
+    float radiusSum = ball.getRadius() + hole.getRadius();
+
+    // Return true if the distance is less than or equal to the sum of the radii
+    return distance <= radiusSum;
 }

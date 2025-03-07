@@ -1,9 +1,10 @@
 #include "game.hpp"
 #include <iostream>
+#include <string>
 
 Game::Game() : window_size{std::make_shared<sf::Vector2u>(1500u, 700u)},
                window{std::make_unique<sf::RenderWindow>(sf::VideoMode(*this->window_size), "Not sure what to put?",
-                sf::Style::Titlebar | sf::Style::Close)} {
+                sf::Style::Titlebar | sf::Style::Close)}, _score{std::make_unique<Score>()} {
 
     this->_FPS = 60;
     this->window->setFramerateLimit(this->_FPS);
@@ -96,6 +97,8 @@ void Game::update() {
     this->pool_world->moveBalls(this->_FPS);
     this->pool_world->handleWallCollision();
     this->pool_world->moveStik(this->_FPS);
+
+    this->pool_world->updateScore(this->_score);
     
 }
 
@@ -119,4 +122,39 @@ void Game::drawObjects() const {
     this->window->draw(*this->pool_world->getBalls());
     if(this->pool_world->getStick()->visibilityStatus())
         this->window->draw(*this->pool_world->getStickShape());
+    
+        this->window->draw(this->_score->getText());
+}
+
+Score::Score(): _font{"src/Game/ComingSoon-Regular.ttf"},  _text{this->_font, "Score: 0"}, _score{0}{
+    this->_text.setCharacterSize(24);
+    this->_text.setFillColor(sf::Color::Magenta);
+    this->_text.setStyle(sf::Text::Bold);
+    this->_text.setPosition(sf::Vector2f(10.f, 1.f));
+}
+
+const sf::Text& Score::getText() {
+    return this->_text;
+}
+
+void Score::increaseScore() {
+    this->_score++;
+    this->updateScreen();
+}
+
+void Score::decreaseScore() {
+    this->_score--;
+    this->updateScreen();
+}
+
+void Score::resetScore() {
+    this->_score = 0;
+    this->updateScreen();
+}
+
+void Score::updateScreen() {
+    std::string str = "Score: ";
+    str += std::to_string(this->_score);
+
+    this->_text.setString(str);
 }
