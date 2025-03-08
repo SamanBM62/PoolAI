@@ -65,13 +65,22 @@ void PoolWorld::shootBall()
 	this->_stick->hitBall(this->white_ball);
 }
 
-const std::unique_ptr<sf::CircleShape>& PoolWorld::getWhiteBall() const {
+const std::unique_ptr<sf::CircleShape>& PoolWorld::getWhiteBallShape() const {
 	return this->white_ball->getBall();
 }
 
-const std::unique_ptr<sf::CircleShape>& PoolWorld::getBalls() const
+const std::unique_ptr<sf::CircleShape>& PoolWorld::getBallsShape() const
 {
 	return this->_balls->getBall();
+}
+
+const std::unique_ptr<Ball>& PoolWorld::getWhiteBall() const {
+	return this->white_ball;
+}
+
+const std::unique_ptr<Ball>& PoolWorld::getBalls() const
+{
+	return this->_balls;
 }
 
 void PoolWorld::moveWhiteBall(unsigned int& FPS) {
@@ -113,11 +122,15 @@ const std::unique_ptr<Stick>& PoolWorld::getStick() const {
 
 void PoolWorld::updateScore(const std::unique_ptr<Score>& scoreTable) {
 	for (auto const& hole: this->holes) {
-		if (this->checkBallCollisonWithHoles(*this->_balls->getBall(), *hole))
+		if (this->checkBallCollisonWithHoles(*this->_balls->getBall(), *hole)) {
 			scoreTable->increaseScore();
+			this->_balls->makeInvisible();
+		}
 
-		if (this->checkBallCollisonWithHoles(*this->white_ball->getBall(), *hole))
+		if (this->checkBallCollisonWithHoles(*this->white_ball->getBall(), *hole)) {
 			scoreTable->decreaseScore();
+			this->white_ball->makeInvisible();
+		}
 	}
 }
 

@@ -2,8 +2,8 @@
 #include <cmath>
 
 Ball::Ball(float radious, sf::Vector2f pos) : _ball{ std::make_unique<sf::CircleShape>(radious) },
-	velocity{0.f, 0.f} {
-	this->_ball->setPosition(pos);
+	velocity{0.f, 0.f}, _visibilty{true}, _originalPos{pos} {
+	this->_ball->setPosition(this->_originalPos);
 }
 
 void Ball::move(unsigned int& FPS)
@@ -103,4 +103,17 @@ void Ball::handleWallCollision(sf::Vector2f& window_size, sf::Vector2f& board_si
 		float friction = 0.85f;
 		this->velocity *= friction;
 	}
+}
+
+bool Ball::visibilityStatus() {
+	return this->_visibilty;
+}
+
+void Ball::makeVisibile(){
+	this->_visibilty = true;
+}
+
+void Ball::makeInvisible() {
+	this->_visibilty = false;
+	this->_ball->setPosition(this->_originalPos);
 }

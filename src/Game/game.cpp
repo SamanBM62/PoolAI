@@ -33,7 +33,7 @@ void Game::pollEvent() {
                     this->window->close();
                     break;
                 case sf::Keyboard::Scancode::V:
-                    this->pool_world->getStick()->makeVisibile(this->pool_world->getWhiteBall()->getPosition());
+                    this->pool_world->getStick()->makeVisibile(this->pool_world->getWhiteBallShape()->getPosition());
                     break;
                 case sf::Keyboard::Scancode::S:
                     this->pool_world->shootBall();
@@ -50,11 +50,11 @@ void Game::pollEvent() {
             {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Left)
                 {
-                    if (this->pool_world->getWhiteBall()->getGlobalBounds().contains(sf::Vector2f(mouseButtonPressed->position.x, mouseButtonPressed->position.y))
+                    if (this->pool_world->getWhiteBallShape()->getGlobalBounds().contains(sf::Vector2f(mouseButtonPressed->position.x, mouseButtonPressed->position.y))
                         && !this->pool_world->getStick()->visibilityStatus()) {
 
-                        auto ballPosition = this->pool_world->getWhiteBall()->getPosition();
-                        auto radius = this->pool_world->getWhiteBall()->getRadius();
+                        auto ballPosition = this->pool_world->getWhiteBallShape()->getPosition();
+                        auto radius = this->pool_world->getWhiteBallShape()->getRadius();
                         this->pool_world->getStick()->makeVisibile(sf::Vector2f(ballPosition + sf::Vector2f(radius, radius)));
                     }
                 }
@@ -66,8 +66,8 @@ void Game::pollEvent() {
                 {
                     // this->pool_world->getStick()->makeInvisible();
                     // this->pool_world->shootBall();
-                    auto ballPosition = this->pool_world->getWhiteBall()->getPosition();
-                    auto radius = this->pool_world->getWhiteBall()->getRadius();
+                    auto ballPosition = this->pool_world->getWhiteBallShape()->getPosition();
+                    auto radius = this->pool_world->getWhiteBallShape()->getRadius();
 
                     auto vel = this->pool_world->getStickShape()->getPosition() - sf::Vector2f(ballPosition + sf::Vector2f(radius, radius));
                     vel.x *= -6.5; /*I've just tested different numbers*/
@@ -80,8 +80,8 @@ void Game::pollEvent() {
             if (const auto* mouseMoved = event->getIf<sf::Event::MouseMoved>())
             {
                 if(this->pool_world->getStick()->visibilityStatus()) {
-                    auto ballPosition = this->pool_world->getWhiteBall()->getPosition();
-                    auto radius = this->pool_world->getWhiteBall()->getRadius();
+                    auto ballPosition = this->pool_world->getWhiteBallShape()->getPosition();
+                    auto radius = this->pool_world->getWhiteBallShape()->getRadius();
 
                     this->pool_world->getStick()->moveStick(sf::Vector2f(ballPosition + sf::Vector2f(radius, radius)), mouseMoved->position.x, mouseMoved->position.y);
                 }
@@ -118,8 +118,12 @@ void Game::drawObjects() const {
         this->window->draw(*hole);
     }
 
-    this->window->draw(*this->pool_world->getWhiteBall());
-    this->window->draw(*this->pool_world->getBalls());
+    if(this->pool_world->getWhiteBall()->visibilityStatus())
+        this->window->draw(*this->pool_world->getWhiteBallShape());
+    
+    if(this->pool_world->getBalls()->visibilityStatus())
+        this->window->draw(*this->pool_world->getBallsShape());
+        
     if(this->pool_world->getStick()->visibilityStatus())
         this->window->draw(*this->pool_world->getStickShape());
     

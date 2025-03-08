@@ -31,9 +31,11 @@ public:
 	PoolWorld(std::shared_ptr<sf::Vector2u>);
 	sf::RectangleShape getPool();
 	const std::vector<std::unique_ptr<sf::CircleShape>>& getHoles() const;
-	const std::unique_ptr<sf::CircleShape>& getWhiteBall() const;
+	const std::unique_ptr<Ball>& getWhiteBall() const;
+	const std::unique_ptr<sf::CircleShape>& getWhiteBallShape() const;
 	//TODO: make this vector
-	const std::unique_ptr<sf::CircleShape>& getBalls() const;
+	const std::unique_ptr<Ball>& getBalls() const;
+	const std::unique_ptr<sf::CircleShape>& getBallsShape() const;
 	void moveWhiteBall(unsigned int& FPS);
 	//TODO: make this vector
 	void moveBalls(unsigned int& FPS);
@@ -46,4 +48,6 @@ public:
 
 
 	void updateScore(const std::unique_ptr<Score>&);
+
+
 };
