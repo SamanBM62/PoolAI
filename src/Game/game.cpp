@@ -123,8 +123,9 @@ void Game::drawObjects() const {
     if(this->pool_world->getWhiteBall()->visibilityStatus())
         this->window->draw(*this->pool_world->getWhiteBallShape());
     
-    if(this->pool_world->getBalls()->visibilityStatus())
-        this->window->draw(*this->pool_world->getBallsShape());
+    for(auto const& ball: this->pool_world->getBalls())
+        if(ball->visibilityStatus())
+            this->window->draw(*ball->getBall());
         
     if(this->pool_world->getStick()->visibilityStatus())
         this->window->draw(*this->pool_world->getStickShape());

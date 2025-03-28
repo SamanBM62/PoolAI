@@ -11,7 +11,7 @@ private:
 	bool _visibilty;
 	sf::Vector2f _originalPos;
 public:
-	Ball(float radious, sf::Vector2f pos);
+	Ball(float radious, sf::Vector2f pos, sf::Color colour);
 	void move(unsigned int& FPS);
 	void setVelocity(const sf::Vector2f& newVel);
 	void handleWallCollision(sf::Vector2f& window_size, sf::Vector2f& board_size);

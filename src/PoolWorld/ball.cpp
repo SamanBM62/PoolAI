@@ -2,9 +2,10 @@
 #include <cmath>
 #include <iostream>
 
-Ball::Ball(float radious, sf::Vector2f pos) : _ball{ std::make_unique<sf::CircleShape>(radious) },
+Ball::Ball(float radious, sf::Vector2f pos, sf::Color colour) : _ball{ std::make_unique<sf::CircleShape>(radious) },
 	velocity{0.f, 0.f}, _visibilty{true}, _originalPos{pos} {
 	this->_ball->setPosition(this->_originalPos);
+	this->_ball->setFillColor(colour);
 }
 
 void Ball::move(unsigned int& FPS)

@@ -15,7 +15,7 @@ private:
 	std::vector<std::unique_ptr<sf::CircleShape>> holes;
 	std::unique_ptr<Ball> white_ball;
 	//TODO: make this vector
-	std::unique_ptr<Ball> _balls;
+	std::vector<std::unique_ptr<Ball>> _balls;
 
 	std::unique_ptr<Stick> _stick;
 
@@ -33,11 +33,10 @@ public:
 	const std::vector<std::unique_ptr<sf::CircleShape>>& getHoles() const;
 	const std::unique_ptr<Ball>& getWhiteBall() const;
 	const std::unique_ptr<sf::CircleShape>& getWhiteBallShape() const;
-	//TODO: make this vector
-	const std::unique_ptr<Ball>& getBalls() const;
-	const std::unique_ptr<sf::CircleShape>& getBallsShape() const;
+	const std::vector<std::unique_ptr<Ball>>& getBalls() const;
+	//TODO: is it possible to implement this with yielding results?
+	//const std::unique_ptr<sf::CircleShape>& getBallsShape() const;
 	void moveWhiteBall(unsigned int& FPS);
-	//TODO: make this vector
 	void moveBalls(unsigned int& FPS);
 	void handleWallCollision();
 	void shootBall();

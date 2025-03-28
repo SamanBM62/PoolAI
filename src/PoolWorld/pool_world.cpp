@@ -46,19 +46,44 @@ const std::vector<std::unique_ptr<sf::CircleShape>>& PoolWorld::getHoles() const
 
 void PoolWorld::setUpWhiteBall() {
 	this->white_ball = std::make_unique <Ball>(20, 
-		sf::Vector2f((this->main_window_size->x) / 2.f,
-					(this->main_window_size->y) / 2.f)
+		sf::Vector2f((this->main_window_size->x) / 2.f - 200.f,
+					(this->main_window_size->y) / 2.f),
+					sf::Color::White
 		);
 }
 
 void PoolWorld::setUpBalls()
 {
-	this->_balls = std::make_unique <Ball>(20,
-		sf::Vector2f((this->main_window_size->x) / 2.f + 200.f,
-			(this->main_window_size->y) / 2.f)
-		);
-	this->_balls->getBall()->setFillColor(sf::Color::Red);
+	/* this code looks like shit, but it works; mayabe a TODO:later? */
+    int radius = 20;
+
+    std::vector<sf::Color> colors = {
+        sf::Color::Red, sf::Color::Yellow, sf::Color(235, 106, 14), sf::Color::Blue, sf::Color::Magenta,
+        sf::Color(255, 165, 0), sf::Color::Cyan, sf::Color::Red, sf::Color::Yellow, sf::Color(235, 106, 14),
+        sf::Color::Blue, sf::Color::Magenta, sf::Color(255, 165, 0), sf::Color::Cyan, sf::Color::Red, sf::Color::Yellow
+    };
+
+    float startX = (this->main_window_size->x) / 2.f + 100.f;
+    float startY = (this->main_window_size->y) / 2.f;
+
+    float horizontalSpacing = 2 * radius + 10.f;
+    float verticalSpacing = 2 * radius + 10.f;
+
+    int ballIndex = 0;
+
+    for (int row = 0; row < 5; ++row) {
+        for (int col = 0; col <= row; ++col) {
+            float x = startX + col * horizontalSpacing ;
+            float y = startY + row * verticalSpacing - (col * horizontalSpacing / 2);
+
+            this->_balls.push_back(std::make_unique<Ball>(radius, sf::Vector2f(x, y), colors[ballIndex]));
+            ballIndex++;
+        }
+    }
+	for(auto const& ball: this->_balls)
+		ball->getBall()->move(sf::Vector2f(0, -101.f));
 }
+
 
 void PoolWorld::shootBall()
 {
@@ -69,16 +94,11 @@ const std::unique_ptr<sf::CircleShape>& PoolWorld::getWhiteBallShape() const {
 	return this->white_ball->getBall();
 }
 
-const std::unique_ptr<sf::CircleShape>& PoolWorld::getBallsShape() const
-{
-	return this->_balls->getBall();
-}
-
 const std::unique_ptr<Ball>& PoolWorld::getWhiteBall() const {
 	return this->white_ball;
 }
 
-const std::unique_ptr<Ball>& PoolWorld::getBalls() const
+const std::vector<std::unique_ptr<Ball>>& PoolWorld::getBalls() const
 {
 	return this->_balls;
 }
@@ -90,9 +110,11 @@ void PoolWorld::moveWhiteBall(unsigned int& FPS) {
 
 void PoolWorld::moveBalls(unsigned int& FPS)
 {
-	this->_balls->move(FPS);
-	if(this->_balls->checkCollision(*this->white_ball))
-		this->_balls->handleBallCollision(*this->white_ball);
+	for(auto const& ball: this->_balls) {
+		ball->move(FPS);
+		if(ball->checkCollision(*this->white_ball))
+			ball->handleBallCollision(*this->white_ball);
+	}
 }
 
 void PoolWorld::moveStik(unsigned int& FPS) {
@@ -107,8 +129,9 @@ void PoolWorld::handleWallCollision() {
 	this->white_ball->handleWallCollision(temp, 
 			temp2);
 
-	this->_balls->handleWallCollision(temp,
-		temp2);
+	for(auto const& ball: this->_balls) {
+		ball->handleWallCollision(temp, temp2);
+	}
 }
 
 const std::unique_ptr<sf::RectangleShape>& PoolWorld::getStickShape() const {
@@ -122,9 +145,12 @@ const std::unique_ptr<Stick>& PoolWorld::getStick() const {
 
 void PoolWorld::updateScore(const std::unique_ptr<Score>& scoreTable) {
 	for (auto const& hole: this->holes) {
-		if (this->checkBallCollisonWithHoles(*this->_balls->getBall(), *hole)) {
-			scoreTable->increaseScore();
-			this->_balls->makeInvisible();
+		
+		for(auto const& ball: this->_balls) {
+			if (this->checkBallCollisonWithHoles(*ball->getBall(), *hole)) {
+				scoreTable->increaseScore();
+				ball->makeInvisible();
+			}
 		}
 
 		if (this->checkBallCollisonWithHoles(*this->white_ball->getBall(), *hole)) {
