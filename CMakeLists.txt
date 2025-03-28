@@ -16,5 +16,5 @@ add_executable(main src/main.cpp src/Game/game.cpp
     src/PoolWorld/pool_world.cpp
     src/PoolWorld/ball.cpp
     src/PoolWorld/stick.cpp)
-target_compile_features(main PRIVATE cxx_std_17)
+target_compile_features(main PRIVATE cxx_std_20)
 target_link_libraries(main PRIVATE SFML::Graphics)
