@@ -1,5 +1,6 @@
 #include "ball.hpp"
 #include <cmath>
+#include <iostream>
 
 Ball::Ball(float radious, sf::Vector2f pos) : _ball{ std::make_unique<sf::CircleShape>(radious) },
 	velocity{0.f, 0.f}, _visibilty{true}, _originalPos{pos} {
@@ -23,7 +24,7 @@ void Ball::move(unsigned int& FPS)
 	if (std::abs(velocity.y) < 0.1f) velocity.y = 0;
 }
 
-void Ball::setVelocity(sf::Vector2f& newVel)
+void Ball::setVelocity(sf::Vector2f const& newVel)
 {
 	this->velocity = newVel;
 }
@@ -115,5 +116,7 @@ void Ball::makeVisibile(){
 
 void Ball::makeInvisible() {
 	this->_visibilty = false;
+	std::cout << "original pos of ball: " << this->_originalPos.x << ", " << this->_originalPos.y << std::endl;
+	this->setVelocity(sf::Vector2f(0.f, 0.f));
 	this->_ball->setPosition(this->_originalPos);
 }

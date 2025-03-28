@@ -50,7 +50,9 @@ void Game::pollEvent() {
             {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Left)
                 {
-                    if (this->pool_world->getWhiteBallShape()->getGlobalBounds().contains(sf::Vector2f(mouseButtonPressed->position.x, mouseButtonPressed->position.y))
+                    if (this->pool_world->getWhiteBall()->visibilityStatus() && 
+                        this->pool_world->getWhiteBallShape()->getGlobalBounds()
+                            .contains(sf::Vector2f(mouseButtonPressed->position.x, mouseButtonPressed->position.y))
                         && !this->pool_world->getStick()->visibilityStatus()) {
 
                         auto ballPosition = this->pool_world->getWhiteBallShape()->getPosition();
