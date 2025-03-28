@@ -114,6 +114,13 @@ void PoolWorld::moveBalls(unsigned int& FPS)
 		ball->move(FPS);
 		if(ball->checkCollision(*this->white_ball))
 			ball->handleBallCollision(*this->white_ball);
+		for(auto const& ball2: this->_balls)
+		{
+			if(ball2->checkCollision(*this->white_ball))
+				ball2->handleBallCollision(*this->white_ball);
+			if(ball->checkCollision(*ball2))
+				ball->handleBallCollision(*ball2);
+		}
 	}
 }
 

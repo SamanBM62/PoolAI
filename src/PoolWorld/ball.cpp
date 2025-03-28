@@ -37,6 +37,8 @@ const std::unique_ptr<sf::CircleShape>& Ball::getBall() const
 
 bool Ball::checkCollision(const Ball& other) const
 {
+	if (&other == this)
+		return false;
 	sf::Vector2f diff = other._ball->getPosition() - this->_ball->getPosition();
 	float distance = std::sqrt(diff.x * diff.x + diff.y * diff.y);
 	float radiusSum = this->_ball->getRadius() + other._ball->getRadius();
@@ -46,6 +48,8 @@ bool Ball::checkCollision(const Ball& other) const
 
 void Ball::handleBallCollision(Ball& other)
 {
+	if (&other == this)
+		return;
 	sf::Vector2f diff = other._ball->getPosition() - this->_ball->getPosition();
 	float distance = std::sqrt(diff.x * diff.x + diff.y * diff.y);
 
@@ -117,7 +121,6 @@ void Ball::makeVisibile(){
 
 void Ball::makeInvisible() {
 	this->_visibilty = false;
-	std::cout << "original pos of ball: " << this->_originalPos.x << ", " << this->_originalPos.y << std::endl;
 	this->setVelocity(sf::Vector2f(0.f, 0.f));
 	this->_ball->setPosition(this->_originalPos);
 }
