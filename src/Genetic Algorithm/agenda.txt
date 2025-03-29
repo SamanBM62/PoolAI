@@ -1,0 +1,23 @@
+Our gens consists of 10 shots
+we should calculate the final distances of balls to the holes + the rewards for scoring - penalties for removing white ball as our fitness function.
+
+then after 30 generations we select the elit and let the first 10 shots to be the elit for the first 30 generation,
+    and repeat the process for the next 10 shots.
+
+we repeat this until we score all the balls.
+
+------------------------------------------------------------------
+there should be a login mechanism for each generation, so that it can be used for cool videos maybe?
+------------------------
+this is the steps for the genetic algorithm:
+1. Initialize Population: Create a random population of chromosomes.
+
+2. Evaluate Fitness: Calculate the fitness of each individual in the population.
+
+3. Select Parents: Choose parents based on their fitness (e.g., roulette wheel, tournament selection).
+
+4. Crossover: Combine selected parents to create offspring by swapping parts of their chromosomes.
+
+5. Mutation: Apply random changes to some offspring's chromosomes (e.g., adjust cue ball position or stick angle).
+
+6. Create New Generation: Form the new population from the offspring, ensuring the population size remains constant.
