@@ -1,4 +1,4 @@
----
+
 name: Software issue
 description: File a new issue.
 title: "[SW-AI]: "
@@ -39,8 +39,4 @@ body:
         - 2 weeks
         - 3 weeks
         - 4 or more weeks
-
-
----
-
 
