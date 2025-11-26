@@ -23,7 +23,7 @@ body:
   - type: textarea
     id: structure
     attributes:
-      label: Describe the issue:
+      label: Describe the issue
       description: Also tell us, what did you expect to happen?
       placeholder: Tell us what you see!
       value: "A bug happened!"
