@@ -1,17 +1,23 @@
-
 name: Software issue
 description: File a new issue.
 title: "[SW-AI]: "
 labels: ["bug", "triage"]
-projects: ["octo-org/1", "octo-org/44"]
+
+projects:
+  - org: octo-org
+    number: 1
+  - org: octo-org
+    number: 44
+
 assignees:
   - octocat
-type: bug
+
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
+
   - type: input
     id: contact
     attributes:
@@ -20,6 +26,7 @@ body:
       placeholder: please provide your discord ID
     validations:
       required: true
+
   - type: textarea
     id: structure
     attributes:
@@ -29,6 +36,7 @@ body:
       value: "A bug happened!"
     validations:
       required: true
+
   - type: dropdown
     id: time
     attributes:
@@ -39,4 +47,3 @@ body:
         - 2 weeks
         - 3 weeks
         - 4 or more weeks
-
